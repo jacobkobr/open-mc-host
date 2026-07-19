@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Open MC Host</title>
+  <link rel="icon" type="image/png" href="/assets/logo.png?v=3">
+  <link rel="stylesheet" href="/app.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="ambient" aria-hidden="true"></div>
+  <div class="app-shell">
+    <button id="nav-overlay" class="nav-overlay" type="button" aria-label="Close navigation" hidden></button>
+    <aside class="sidebar" id="sidebar-navigation">
+      <button id="sidebar-toggle-zone" class="sidebar-toggle-zone" type="button" aria-label="Expand navigation"></button>
+      <button id="sidebar-close" class="sidebar-close icon-button" type="button" aria-label="Close sidebar" title="Close sidebar"><span class="lucide-icon icon-panel-left-close" aria-hidden="true"></span></button>
+      <a class="brand" href="#overview" data-route="overview" aria-label="Open MC Host home">
+        <img src="/assets/logo.png?v=3" alt="">
+        <span>Open MC Host</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary navigation">
+        <button class="nav-item active" data-route="overview" aria-label="Overview" data-nav-label="Overview"><span class="lucide-icon icon-layout-dashboard" aria-hidden="true"></span><span>Overview</span></button>
+        <button class="nav-item" data-route="servers" aria-label="Servers" data-nav-label="Servers"><span class="lucide-icon icon-server" aria-hidden="true"></span><span>Servers</span></button>
+        <button class="nav-item creator-only" data-route="create" aria-label="Create server" data-nav-label="Create server"><span class="lucide-icon icon-plus" aria-hidden="true"></span><span>Create server</span></button>
+        <button class="nav-item" data-route="content" aria-label="Content catalog" data-nav-label="Content catalog"><span class="lucide-icon icon-library-big" aria-hidden="true"></span><span>Content catalog</span></button>
+        <button class="nav-item owner-only" data-route="access" aria-label="People and access" data-nav-label="People and access"><span class="lucide-icon icon-users-round" aria-hidden="true"></span><span>People & access</span></button>
+        <button class="nav-item owner-only" data-route="settings" aria-label="Settings" data-nav-label="Settings"><span class="lucide-icon icon-settings" aria-hidden="true"></span><span>Settings</span></button>
+      </nav>
+    </aside>
+
+    <div class="content-shell">
+      <header class="topbar">
+        <button id="mobile-nav" class="icon-button secondary" aria-label="Open navigation" aria-controls="sidebar-navigation" aria-expanded="false"><span class="lucide-icon icon-menu" aria-hidden="true"></span></button>
+        <div><h1 id="page-title">Overview</h1></div>
+        <div class="top-actions"><button id="refresh" class="icon-button secondary" aria-label="Refresh dashboard" title="Refresh dashboard"><span class="lucide-icon icon-refresh-cw" aria-hidden="true"></span></button><button id="theme-toggle" class="icon-button secondary" aria-label="Use light theme" title="Use light theme"><span class="lucide-icon icon-sun" aria-hidden="true"></span></button><button id="logout" class="icon-button secondary" aria-label="Disconnect" title="Disconnect"><span class="lucide-icon icon-log-out" aria-hidden="true"></span></button></div>
+      </header>
+
+      <main>
+        <div id="notice" class="notice" role="status" aria-live="polite"></div>
+
+        <section class="view active" data-view="overview">
+          <div class="metrics-grid" id="overview-metrics">
+            <article class="metric-card"><span>Servers</span><strong id="metric-servers">—</strong><small>Total configured</small></article>
+            <article class="metric-card"><span>Running</span><strong id="metric-running">—</strong><small>Healthy containers</small></article>
+            <article class="metric-card"><span>Containers</span><strong id="metric-containers">—</strong><small>On this Docker node</small></article>
+            <article class="metric-card"><span>Public address</span><strong id="metric-public">—</strong><small>Detected WAN endpoint</small></article>
+          </div>
+          <article class="panel overview-monitor"><div class="panel-head"><div><p class="eyebrow">Server monitor</p><h3>Resource usage</h3></div><label class="overview-monitor-select">Server<select id="overview-monitor-select" aria-label="Server to monitor"></select></label></div><div class="metrics-grid compact"><article class="metric-card"><span>CPU</span><strong id="overview-monitor-cpu">—</strong></article><article class="metric-card"><span>Memory</span><strong id="overview-monitor-memory">—</strong></article><article class="metric-card"><span>Players</span><strong id="overview-monitor-players">—</strong></article><article class="metric-card"><span>Uptime</span><strong id="overview-monitor-uptime">—</strong></article><article class="metric-card"><span>Network I/O</span><strong id="overview-monitor-network">—</strong></article><article class="metric-card"><span>Disk I/O</span><strong id="overview-monitor-block">—</strong></article></div></article>
+          <div class="section-grid overview-grid">
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Fleet</p><h3>Recent servers</h3></div><button class="secondary route-action" data-route="servers">View all</button></div><div id="recent-servers" class="server-stack"></div></article>
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Readiness</p><h3>Host checklist</h3></div></div><div id="host-checklist" class="checklist"></div></article>
+          </div>
+        </section>
+
+        <section class="view" data-view="servers">
+          <div class="server-layout">
+            <aside class="panel server-browser"><div class="panel-head"><div><p class="eyebrow">Fleet</p><h3>Servers</h3></div><button class="icon-button route-action creator-only" data-route="create" aria-label="Create server" title="Create server"><span class="lucide-icon icon-plus" aria-hidden="true"></span></button></div><div id="server-list" class="server-stack"></div></aside>
+            <section id="server-workspace" class="panel workspace"><div class="empty-state"><h3>Select a server</h3><p>Choose a server to open its connection details, console, files, backups, and content.</p></div></section>
+          </div>
+        </section>
+
+        <section class="view" data-view="create">
+          <div class="narrow-layout create-layout">
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">New server</p><h3>Choose a known-good runtime</h3></div></div>
+              <form id="create-form" class="form-stack">
+                <div class="form-grid two-col"><label>Server name<input name="name" required minlength="3" maxlength="48"></label><label>Software<select name="software" id="create-software" required></select></label></div>
+                <div class="form-grid two-col"><label>Minecraft version<select name="version" id="create-version" required><option>Loading versions…</option></select></label><label>Server build<select name="build" id="create-build"><option value="">Automatic stable build</option></select></label></div>
+                <div class="form-grid three-col"><label>Memory<select name="memory"><option>2G</option><option selected>3G</option><option>4G</option><option>6G</option><option>8G</option></select></label><label>CPU limit<input name="cpus" type="number" min="0.25" max="16" step="0.25" value="1"></label><label>Game port<input name="port" type="number" min="1024" max="65535" placeholder="Automatic"></label></div>
+                <div class="form-actions"><button type="submit">Create and start</button><button type="reset" class="secondary">Reset</button></div>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" data-view="content">
+          <div class="catalog-header panel">
+            <div><p class="eyebrow">Curated providers</p><h3>Mods, plugins, and modpacks</h3><p class="muted">Choose a modpack first to create a matching server automatically, or select a server to install an exact compatible release.</p></div>
+            <label>Install to<select id="catalog-server"></select></label>
+          </div>
+          <div class="catalog-toolbar panel">
+            <div class="segmented" id="provider-tabs" role="tablist" aria-label="Content provider"><button id="provider-modrinth-tab" class="active" role="tab" aria-selected="true" aria-controls="catalog-results" tabindex="0" data-provider="modrinth">Modrinth</button><button id="provider-hangar-tab" role="tab" aria-selected="false" aria-controls="catalog-results" tabindex="-1" data-provider="hangar">Hangar</button></div>
+            <label class="search-field"><span class="lucide-icon icon-search" aria-hidden="true"></span><input id="catalog-query" placeholder="Search projects"></label>
+            <select id="catalog-type"><option value="plugin">Plugins</option><option value="mod">Mods</option><option value="modpack">Modpacks</option></select>
+            <button id="catalog-search">Search</button>
+          </div>
+          <div id="catalog-results" class="catalog-grid" role="tabpanel" aria-labelledby="provider-modrinth-tab" tabindex="0"><div class="empty-state"><h3>Start with a modpack or a server</h3><p>Select “Create a matching server from a modpack” to build from a pack release, or choose an existing server for exact installs.</p></div></div>
+        </section>
+
+        <section class="view owner-only" data-view="access">
+          <div class="page-split">
+            <article class="panel"><div class="panel-head"><div><p class="eyebrow">Accounts</p><h3>People</h3></div></div><div id="member-list" class="member-list"></div></article>
+            <aside class="panel"><p class="eyebrow">New invite</p><h3>Give dashboard access</h3><form id="member-form" class="form-stack"><label>Name<input name="name" required maxlength="48" placeholder="Steve"></label><label>Role<select name="role"><option value="member">Member — create owned servers</option><option value="operator">Operator — manage assigned servers</option><option value="viewer">Viewer — read-only access</option></select></label><div class="form-grid two-col"><label>Server limit<input name="maxServers" type="number" min="0" max="20" value="1"></label><label>RAM limit<input name="maxMemoryMb" type="number" min="512" max="16384" step="256" value="3072"></label></div><button type="submit">Create invite</button></form><div id="new-access-key" class="secret-result hidden"></div></aside>
+          </div>
+          <article class="panel spaced"><div class="panel-head"><div><p class="eyebrow">Invites</p><h3>Pending</h3></div><button id="invite-refresh" class="secondary">Refresh</button></div><div id="invite-list" class="member-list"></div></article>
+          <article class="panel spaced"><div class="panel-head"><div><p class="eyebrow">Activity</p><h3>Recent changes</h3></div><div class="action-row"><select id="audit-filter" aria-label="Filter activity"><option value="all">All activity</option><option value="account">Accounts</option><option value="invite">Invites</option><option value="credential">Keys</option><option value="server">Servers</option><option value="ssh">SSH</option></select><button id="audit-refresh" class="secondary">Refresh</button></div></div><div id="access-audit" class="audit-list"></div></article>
+        </section>
+
+        <section class="view owner-only" data-view="settings">
+          <div class="page-split">
+            <article class="panel"><p class="eyebrow">Player access</p><h3>Public join address</h3><form id="public-host-form" class="form-stack"><label>Hostname or public IP<input name="publicHost" id="public-host" placeholder="mc.yourdomain.com or your public IP"></label><button>Save address</button></form><p id="connection-status" class="muted spaced-small"></p></article>
+            <article class="panel"><p class="eyebrow">Effective deployment</p><h3>Network exposure</h3><div class="setting-row"><span>Minecraft ports</span><code id="setting-game-ports">Detecting…</code></div><div class="setting-row"><span>Dashboard binding</span><code id="setting-panel-binding">Detecting…</code></div><div class="setting-row"><span>Dashboard exposure</span><strong id="setting-panel-exposure">Unknown</strong></div></article>
+          </div>
+          <article class="panel spaced"><p class="eyebrow">Friend dashboard access</p><h3>Canonical HTTPS dashboard URL</h3><form id="dashboard-url-form" class="form-stack"><label>Public HTTPS address<input name="dashboardUrl" id="dashboard-url" type="url" inputmode="url" autocomplete="url" placeholder="https://panel.yourdomain.com"></label><button>Save dashboard URL</button></form><p id="dashboard-url-status" class="muted spaced-small"></p></article>
+          <article class="panel spaced"><div class="panel-head"><div><p class="eyebrow">Optional terminal</p><h3>Restricted SSH menu</h3></div><span class="status-pill neutral">No shell</span></div><div class="page-split"><form id="ssh-key-form" class="form-stack"><label>Key label<input name="label" maxlength="64" value="My computer"></label><label>Public SSH key<textarea name="publicKey" rows="3" required placeholder="ssh-ed25519 AAAA... you@computer"></textarea></label><button>Add key</button></form><div><div id="ssh-key-list" class="member-list"></div><pre class="code-block" data-ssh-command>SSH host is not detected yet.</pre></div></div></article>
+          <article class="panel spaced"><p class="eyebrow">Security model</p><h3>Keep the control plane private by default</h3><p class="muted">For friend dashboard access, adapt the included Caddy example to your domain or use a private Tailscale network. Do not expose port 3000, the Docker socket, or RCON publicly.</p></article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="access-dialog">
+    <form id="access-form" method="dialog" class="auth-card">
+      <img src="/assets/logo.png?v=3" alt="">
+      <p class="eyebrow">Open MC Host</p><h2>Connect to your dashboard</h2><p class="muted">Paste the owner token or a friend access key. It stays in this browser.</p>
+      <label>Access key<input id="access-key" type="password" autocomplete="current-password" required placeholder="omh_…"></label>
+      <button value="connect">Connect</button>
+      <small id="access-error" class="error-text"></small>
+    </form>
+  </dialog>
+
+  <dialog id="version-dialog">
+    <article class="modal-card"><div class="panel-head"><div><p class="eyebrow" id="version-provider">Provider</p><h3 id="version-project">Choose a version</h3></div><button class="icon-button secondary" data-close-dialog="version-dialog" aria-label="Close"><span class="lucide-icon icon-x" aria-hidden="true"></span></button></div><div id="version-list" class="version-list"></div></article>
+  </dialog>
+
+  <dialog id="member-edit-dialog">
+    <form id="member-edit-form" method="dialog" class="modal-card form-stack"><div class="panel-head"><div><p class="eyebrow">Account access</p><h3 id="member-edit-title">Edit account</h3></div><button class="icon-button secondary" type="button" data-close-dialog="member-edit-dialog" aria-label="Close"><span class="lucide-icon icon-x" aria-hidden="true"></span></button></div><label>Role<select name="role" required><option value="member">Member — create owned servers</option><option value="operator">Operator — manage assigned servers</option><option value="viewer">Viewer — read-only access</option></select></label><div class="form-grid two-col"><label>Server limit<input name="maxServers" type="number" min="0" max="20" required></label><label>RAM limit (MiB)<input name="maxMemoryMiB" type="number" min="512" max="16384" step="256" required></label></div><label>Storage limit (GiB)<input name="maxStorageGiB" type="number" min="1" max="1024" step="1" required></label><div class="form-actions"><button type="button" class="secondary" data-close-dialog="member-edit-dialog">Cancel</button><button type="submit">Save changes</button></div></form>
+  </dialog>
+
+  <dialog id="modpack-create-dialog">
+    <article class="modal-card"><div class="panel-head"><div><p class="eyebrow">Modpack-first setup</p><h3 id="modpack-create-title">Create a matching server</h3></div><button class="icon-button secondary" data-close-dialog="modpack-create-dialog" aria-label="Close"><span class="lucide-icon icon-x" aria-hidden="true"></span></button></div><p id="modpack-create-summary" class="muted">Open MC Host will create the matching runtime and install the selected pack.</p><form id="modpack-create-form" class="form-stack"><label>Server name<input name="name" required minlength="3" maxlength="48"></label><div class="form-grid two-col"><label>Pack runtime<select name="runtime" id="modpack-runtime" required></select></label><label>Memory<select name="memory"><option>3G</option><option selected>4G</option><option>6G</option><option>8G</option><option>12G</option></select></label></div><label>CPU limit<input name="cpus" type="number" min="0.25" max="16" step="0.25" value="2"></label><div class="callout"><strong>What happens next</strong><span>A new server gets an automatic public game port, then the verified Modrinth pack is installed. The server stays stopped when installation finishes.</span></div><div class="form-actions"><button type="submit">Create server and install pack</button></div></form></article>
+  </dialog>
+
+  <template id="workspace-template">
+    <div class="workspace-head"><div><div class="title-line"><span class="server-status-dot"></span><h2 class="server-name"></h2></div><p class="server-meta muted"></p></div><div class="action-row"><button data-action="start">Start</button><button data-action="stop" class="secondary">Stop</button><button data-action="restart" class="secondary">Restart</button><button data-action="rebuild" class="secondary owner-control">Repair</button><button data-action="delete" class="danger server-owner-control">Delete</button></div></div>
+    <div class="tabs" role="tablist" aria-label="Server details"><button class="active" role="tab" aria-selected="true" tabindex="0" data-panel="connection">Connection</button><button role="tab" aria-selected="false" tabindex="-1" data-panel="console">Console</button><button role="tab" aria-selected="false" tabindex="-1" data-panel="monitoring">Monitoring</button><button role="tab" aria-selected="false" tabindex="-1" data-panel="files" data-requires-manage>Files</button><button role="tab" aria-selected="false" tabindex="-1" data-panel="backups" data-requires-manage>Backups</button><button role="tab" aria-selected="false" tabindex="-1" data-panel="content" data-requires-manage>Content</button><button role="tab" aria-selected="false" tabindex="-1" data-panel="sharing" class="server-owner-control">Access</button></div>
+    <section class="workspace-panel active" role="tabpanel" tabindex="0" data-name="connection"><div class="metrics-grid compact"><article class="metric-card"><span>Public address</span><strong class="connection-public">—</strong><button class="copy-public secondary small">Copy</button></article><article class="metric-card"><span>Private address</span><strong class="connection-lan">—</strong><button class="copy-lan secondary small">Copy</button></article><article class="metric-card"><span>Port</span><strong class="connection-port">—</strong><small class="connection-protocol">TCP</small></article><article class="metric-card"><span>Reachability</span><strong class="connection-public-state">—</strong><small>Verified conservatively</small></article></div><div class="connection-statuses checklist spaced-small"></div><div class="callout cloud-guidance"><strong>Network rule required</strong><span>Check the cloud firewall or router rule for this game port.</span></div><button class="connection-check secondary spaced-small">Check connectivity</button></section>
+    <section class="workspace-panel" role="tabpanel" tabindex="0" data-name="console"><div class="panel-toolbar"><div><strong>Console</strong><small class="muted">Recent output is shown by default.</small></div><button data-action="logs" class="secondary">Refresh</button></div><details class="console-tools"><summary>Search, filters, and log range</summary><div class="console-controls"><label class="console-search-label">Search log<input class="console-search" type="search" placeholder="Player, error, command…" autocomplete="off"></label><label class="console-range-label">Log range<select class="console-range"><option value="recent">Recent 500 lines</option><option value="start">Since server start</option><option value="custom">Custom time window</option></select></label><div class="console-filters" role="group" aria-label="Console filters"><button class="active" type="button" data-console-filter="all">All</button><button type="button" data-console-filter="errors">Errors</button><button type="button" data-console-filter="players">Players</button><button type="button" data-console-filter="operator">OP activity</button><button type="button" data-console-filter="give">Give commands</button><button type="button" data-console-filter="gamemode">Game mode</button><button type="button" data-console-filter="admin">Admin commands</button></div></div><div class="console-time-window" hidden><label>From<input class="console-since" type="datetime-local"></label><label>To<input class="console-until" type="datetime-local"></label></div><div class="action-row console-tool-actions"><button type="button" data-action="logs-range" class="secondary">Load selected range</button></div></details><p class="console-summary muted"></p><pre class="terminal">Open the Console tab to load logs.</pre><form class="command-form inline-form"><input name="command" placeholder="say Hello players"><button>Send</button></form></section>
+    <section class="workspace-panel" role="tabpanel" tabindex="0" data-name="monitoring"><div class="metrics-grid compact"><article class="metric-card"><span>CPU</span><strong class="cpu">—</strong></article><article class="metric-card"><span>Memory</span><strong class="memory">—</strong></article><article class="metric-card"><span>Players</span><strong class="players">—</strong><small class="player-names">Waiting for RCON</small></article><article class="metric-card"><span>Uptime</span><strong class="uptime">—</strong></article><article class="metric-card"><span>Network I/O</span><strong class="network">—</strong></article><article class="metric-card"><span>Disk I/O</span><strong class="block">—</strong></article></div><button data-action="metrics" class="secondary spaced-small">Refresh metrics</button></section>
+    <section class="workspace-panel" role="tabpanel" tabindex="0" data-name="files" data-requires-manage><div class="file-toolbar"><div class="breadcrumb" aria-label="Current folder"></div><div class="action-row"><input class="upload-input" type="file" multiple hidden><button data-action="upload" class="secondary">Upload files</button><button data-action="new-folder" class="secondary">New folder</button><button data-action="files" class="secondary">Refresh</button></div></div><div class="file-layout"><div class="file-table"></div><div class="file-inspector"><p class="editing-path muted">Select a text file to edit, or download any binary file.</p><textarea class="file-editor" spellcheck="false" disabled></textarea><div class="action-row"><button data-action="save-file">Save text</button><button data-action="download-file" class="secondary">Download</button><button data-action="rename-file" class="secondary">Rename</button><button data-action="delete-file" class="danger">Delete</button></div></div></div></section>
+    <section class="workspace-panel" role="tabpanel" tabindex="0" data-name="backups" data-requires-manage><div class="panel-toolbar"><div><strong>Backups</strong><small class="muted">Create, download, import, and restore complete server saves.</small></div><div class="action-row"><input class="backup-upload-input" type="file" accept=".tar.gz,application/gzip" hidden><button data-action="backup">Create backup</button><button data-action="export-backup" class="secondary">Download transfer archive</button><button data-action="import-backup" class="secondary">Import game save</button><button data-action="backups" class="secondary">Refresh</button></div></div><p class="muted backup-transfer-note">Transfer archives include worlds, server settings, mods, plugins, and datapacks. Import into a server with the same loader and Minecraft version.</p><div class="backup-list"></div></section>
+    <section class="workspace-panel" role="tabpanel" tabindex="0" data-name="content" data-requires-manage><div class="panel-toolbar"><div><strong>Installed mods and plugins</strong><small class="muted">Disable, re-enable, or remove content safely.</small></div><div class="action-row"><button class="route-action" data-route="content">Browse catalog</button><button data-action="content-refresh" class="secondary">Refresh</button></div></div><div class="installed-content member-list spaced-small"></div></section>
+    <section class="workspace-panel server-owner-control" role="tabpanel" tabindex="0" data-name="sharing"><div class="panel-toolbar"><span class="muted">Give an existing friend access to this server only.</span></div><form class="share-form inline-form"><select class="share-principal" aria-label="Friend account"></select><select class="share-level" aria-label="Access level"><option value="view">View</option><option value="operate">Operate</option><option value="manage">Manage files</option></select><button>Share server</button></form><div class="grant-list member-list spaced-small"></div></section>
+  </template>
+</body>
+</html>

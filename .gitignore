@@ -1,0 +1,8 @@
+node_modules/
+.data/
+.tmp-*/
+.env
+*.log
+assets/*
+!assets/logo.png
+!assets/logo-mark.png
