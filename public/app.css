@@ -272,6 +272,7 @@ button.sidebar-close:hover {
 .icon-search { --lucide-icon: url('/assets/lucide/search.svg'); }
 .icon-x { --lucide-icon: url('/assets/lucide/x.svg'); }
 .icon-external-link { --lucide-icon: url('/assets/lucide/external-link.svg'); }
+.icon-check { --lucide-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E"); }
 .nav-item .lucide-icon { color: var(--faint); }
 .nav-item.active .lucide-icon { color: var(--accent-strong); }
 .icon-button .lucide-icon { width: 16px; height: 16px; }
@@ -449,7 +450,7 @@ button.is-busy .icon-refresh-cw { animation: refresh-spin 800ms linear infinite;
 
 .connection-statuses { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
 .check-item { display: flex; align-items: center; gap: 9px; min-height: 42px; padding: 9px 11px; border: 1px solid var(--border); border-radius: var(--radius-small); background: var(--surface-raised); color: var(--text-soft); }
-.check-icon { display: grid; width: 19px; height: 19px; flex: 0 0 auto; place-items: center; border-radius: 50%; border: 1px solid var(--border-strong); color: var(--muted); font-size: 10px; }
+.check-icon { width: 16px; height: 16px; flex: 0 0 auto; color: var(--muted); }
 .check-item.success .check-icon { border-color: var(--success); color: var(--success); }
 .check-item.error .check-icon { border-color: var(--danger); color: var(--danger); }
 

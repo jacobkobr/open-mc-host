@@ -486,7 +486,9 @@
 
   function checkItem(label, kind = 'neutral') {
     const item = make('div', `check-item ${kind}`);
-    item.append(make('span', 'check-icon', kind === 'success' ? '✓' : '·'), make('span', '', label));
+    const icon = lucideIcon('check');
+    icon.classList.add('check-icon');
+    item.append(icon, make('span', '', label));
     return item;
   }
 
