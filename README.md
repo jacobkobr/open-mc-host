@@ -19,11 +19,21 @@ Open MC Host is an open-source, self-hosted Minecraft control plane for running 
 
 ## Screenshots
 
-| Server monitoring | Create server |
-| --- | --- |
-| [![Server resource monitoring](docs/screenshots/server-monitoring.png)](docs/screenshots/server-monitoring.png) | [![Create a Minecraft server](docs/screenshots/create-server.png)](docs/screenshots/create-server.png) |
-| **Content catalog** | **Server files** |
-| [![Search mods, plugins, and modpacks](docs/screenshots/mod-catalog.png)](docs/screenshots/mod-catalog.png) | [![Browse and manage server files](docs/screenshots/server-files.png)](docs/screenshots/server-files.png) |
+### Server monitoring
+
+[![Server resource monitoring](docs/screenshots/server-monitoring.png)](docs/screenshots/server-monitoring.png)
+
+### Create server
+
+[![Create a Minecraft server](docs/screenshots/create-server.png)](docs/screenshots/create-server.png)
+
+### Content catalog
+
+[![Search mods, plugins, and modpacks](docs/screenshots/mod-catalog.png)](docs/screenshots/mod-catalog.png)
+
+### Server files
+
+[![Browse and manage server files](docs/screenshots/server-files.png)](docs/screenshots/server-files.png)
 
 ## Requirements
 
