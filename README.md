@@ -17,6 +17,14 @@ Open MC Host is an open-source, self-hosted Minecraft control plane for running 
 - Create invite-only friend accounts with roles, owned servers, quotas, scoped access, and audit history
 - Optionally provide a restricted SSH action menu without a Linux shell, Docker, `sudo`, SCP, or port forwarding
 
+## Screenshots
+
+| Server monitoring | Create server |
+| --- | --- |
+| [![Server resource monitoring](docs/screenshots/server-monitoring.png)](docs/screenshots/server-monitoring.png) | [![Create a Minecraft server](docs/screenshots/create-server.png)](docs/screenshots/create-server.png) |
+| **Content catalog** | **Server files** |
+| [![Search mods, plugins, and modpacks](docs/screenshots/mod-catalog.png)](docs/screenshots/mod-catalog.png) | [![Browse and manage server files](docs/screenshots/server-files.png)](docs/screenshots/server-files.png) |
+
 ## Requirements
 
 For the recommended deployment:
